@@ -1,4 +1,4 @@
-(function () {
+document.addEventListener("DOMContentLoaded", function () {
 	console.log(
 		"This website is a part of Slink! Learn more here https://github.com/Somebud0180/slink",
 	);
