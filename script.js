@@ -1,26 +1,33 @@
 (function () {
 	const pathParts = window.location.pathname.split("/").filter((p) => p !== "");
-	const currentSite = pathParts[0] || "Home;";
+	const currentSite = pathParts[0] || "Home";
 
 	let navHistory = JSON.parse(localStorage.getItem("slink_nav_history")) || [];
 
 	const previousSite =
 		navHistory.length > 0 ? navHistory[navHistory.length - 1] : null;
 
-	if (currentSite !== previousSite) {
-		navHistory.push(currentSite);
-
-		if (navHistory.length > 5) {
-			navHistory.shift();
-		}
-
-		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
-	}
-
 	if (previousSite && previousSite !== currentSite) {
 		createOverlay();
+	} else if (previousSite && previousSite === currentSite) {
+		navHistory.pop(); // Remove current site from history
+		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
 	}
 });
+
+// Call this before opening a new page to save the current site in history
+function saveCurrentSite() {
+	const pathParts = window.location.pathname.split("/").filter((p) => p !== "");
+	const currentSite = pathParts[0] || "Home";
+
+	navHistory.push(currentSite);
+
+	if (navHistory.length > 5) {
+		navHistory.shift();
+	}
+
+	localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
+}
 
 function createOverlay() {
 	const overlay = document.createElement("div");
