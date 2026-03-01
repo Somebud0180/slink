@@ -1,4 +1,8 @@
 (function () {
+	console.log(
+		"This website is a part of Slink! Learn more here https://github.com/Somebud0180/slink",
+	);
+
 	const pathParts = window.location.pathname.split("/").filter((p) => p !== "");
 	const currentSite = pathParts[0] || "Home";
 
@@ -8,8 +12,10 @@
 		navHistory.length > 0 ? navHistory[navHistory.length - 1] : null;
 
 	if (previousSite && previousSite !== currentSite) {
+		console.log("[Slink] Winding the slink");
 		createOverlay();
 	} else if (previousSite && previousSite === currentSite) {
+		console.log("[Slink] Unwinding the slink");
 		navHistory.pop(); // Remove current site from history
 		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
 	}
