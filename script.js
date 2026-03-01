@@ -1,25 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
-	console.log(
-		"This website is a part of Slink! Learn more here https://github.com/Somebud0180/slink",
-	);
+document.addEventListener("DOMContentLoaded", function () {
+let navHistory = JSON.parse(localStorage.getItem("slink_nav_history")) || [];
 
-	const pathParts = window.location.pathname.split("/").filter((p) => p !== "");
-	const currentSite = pathParts[0] || "Home";
+console.log(
+	"This website is a part of Slink! Learn more here https://github.com/Somebud0180/slink",
+);
 
-	let navHistory = JSON.parse(localStorage.getItem("slink_nav_history")) || [];
+const pathParts = window.location.pathname.split("/").filter((p) => p !== "");
+const currentSite = pathParts[0] || "Home";
 
-	const previousSite =
-		navHistory.length > 0 ? navHistory[navHistory.length - 1] : null;
+const previousSite =
+	navHistory.length > 0 ? navHistory[navHistory.length - 1] : null;
 
-	if (previousSite && previousSite !== currentSite) {
-		console.log("[Slink] Winding the slink");
-		createOverlay();
-	} else if (previousSite && previousSite === currentSite) {
-		console.log("[Slink] Unwinding the slink");
-		navHistory.pop(); // Remove current site from history
-		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
-	}
-});
+if (previousSite && previousSite !== currentSite) {
+	console.log("[Slink] Winding the slink");
+	createOverlay();
+} else if (previousSite && previousSite === currentSite) {
+	console.log("[Slink] Unwinding the slink");
+	navHistory.pop(); // Remove current site from history
+	localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
+}
 
 // Call this before opening a new page to save the current site in history
 function saveCurrentSite() {
