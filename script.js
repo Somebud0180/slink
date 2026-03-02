@@ -140,6 +140,7 @@ function goBack() {
 		navHistory.pop(); // Remove current site
 		const previousSite = navHistory.pop(); // Get previous site
 		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
+		console.log("Going to " + previousSite);
 		window.location.href = `/${previousSite}`;
 	} else {
 		window.location.href = "/"; // Go to home if no history
