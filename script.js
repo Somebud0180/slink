@@ -137,7 +137,6 @@ function goBack() {
 	const navHistory =
 		JSON.parse(localStorage.getItem("slink_nav_history")) || [];
 	if (navHistory.length > 0) {
-		navHistory.pop(); // Remove current site
 		const previousSite = navHistory.pop(); // Get previous site
 		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
 		console.log("Going to " + previousSite);
