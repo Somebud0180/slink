@@ -1,3 +1,7 @@
+// Slink - A linking overlay for my websites
+/* Variables */
+window.overlayPadding = "calc(4rem + env(safe-area-inset-bottom))";
+
 let navHistory = JSON.parse(localStorage.getItem("slink_nav_history")) || [];
 const pathParts = window.location.pathname.split("/").filter((p) => p !== "");
 const currentSite = pathParts[0] || "Home";
@@ -44,6 +48,7 @@ function createOverlay() {
 	overlay.style.padding =
 		"0.5rem 1rem calc(0.5rem + env(safe-area-inset-bottom)) 1rem";
 	overlay.style.backdropFilter = "blur(10px)";
+	overlay.style.transition = "transform 0.2s ease-out";
 
 	const backButton = document.createElement("button");
 	backButton.textContent = "← Back to " + previousSite;
@@ -77,7 +82,7 @@ function createOverlay() {
 	toggleButton.style.width = "5rem";
 	toggleButton.style.height = "1.8rem";
 	toggleButton.style.position = "absolute";
-	toggleButton.style.bottom = "calc(4rem + env(safe-area-inset-bottom))";
+	toggleButton.style.bottom = window.overlayPadding;
 	toggleButton.style.right = "1rem";
 	toggleButton.style.padding = "0.5rem";
 	toggleButton.style.justifyContent = "center";
@@ -86,6 +91,8 @@ function createOverlay() {
 	toggleButton.style.borderRadius = "0.6rem 0.6rem 0 0";
 	toggleButton.style.background = "rgba(35, 26, 38, 0.8)";
 	toggleButton.style.backdropFilter = "blur(10px)";
+	toggleButton.style.cursor = "pointer";
+	toggleButton.addEventListener("click", toggleOverlay);
 
 	const toggleIcon = document.createElement("span");
 	toggleIcon.textContent = "^";
@@ -96,6 +103,15 @@ function createOverlay() {
 	overlay.appendChild(sideFooter);
 	overlay.appendChild(toggleButton);
 	document.body.appendChild(overlay);
+}
+
+function toggleOverlay() {
+	const overlay = document.getElementById("slink-overlay");
+	if (overlay.style.transform === `translateY(${window.overlayPadding})`) {
+		overlay.style.transform = "translateY(0)";
+	} else {
+		overlay.style.transform = `translateY(${window.overlayPadding})`;
+	}
 }
 
 function goBack() {
@@ -110,5 +126,3 @@ function goBack() {
 		window.location.href = "/"; // Go to home if no history
 	}
 }
-
-window.overlayPadding = "calc(4rem + env(safe-area-inset-bottom))";
