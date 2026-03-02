@@ -35,7 +35,7 @@ function createOverlay() {
 	overlay.style.bottom = "0";
 	overlay.style.left = "0";
 	overlay.style.width = "100%";
-	overlay.style.height = "4rem + env(safe-area-inset-bottom)";
+	overlay.style.height = overlayPadding;
 	overlay.style.backgroundColor = "rgba(35, 26, 38, 0.8)";
 	overlay.style.display = "flex";
 	overlay.style.justifyContent = "space-between";
@@ -48,26 +48,49 @@ function createOverlay() {
 	const backButton = document.createElement("button");
 	backButton.textContent = "← Back to " + previousSite;
 	backButton.style.padding = "0.5rem 1rem";
-	backButton.style.fontSize = "1rem";
-	backButton.style.backgroundColor = "#fff";
+	backButton.style.fontSize = "clamp(0.65rem, 1.5vw, 0.9rem)";
+	backButton.style.background = "#f2d36b";
+	backButton.style.color = "#1a1a1a";
 	backButton.style.border = "none";
-	backButton.style.borderRadius = "4px";
+	backButton.style.borderRadius = "999px";
 	backButton.style.cursor = "pointer";
 	backButton.addEventListener("click", goBack);
 
 	const title = document.createElement("div");
+	title.style.position = "absolute";
+	title.style.left = "50%";
 	title.textContent = currentSite;
 	title.style.color = "#f3f3f3";
-	title.style.fontSize = "2rem";
+	title.style.fontSize = "clamp(1rem, 2.5vw, 2rem)";
+	title.style.fontWeight = "bold";
 
 	const sideFooter = document.createElement("div");
 	sideFooter.textContent = "© Somebud 2026";
 	sideFooter.style.color = "#f3f3f3";
-	sideFooter.style.fontSize = "0.8rem";
+	sideFooter.style.fontSize = "clamp(0.45rem, 1.2vw, 0.65rem)";
+
+	const toggleButton = document.createElement("button");
+	toggleButton.style.width = "5rem";
+	toggleButton.style.height = "1.8rem";
+	toggleButton.style.position = "absolute";
+	toggleButton.style.bottom = "calc(4rem + env(safe-area-inset-bottom))";
+	toggleButton.style.right = "1rem";
+	toggleButton.style.padding = "0.5rem";
+	toggleButton.style.justifyContent = "center";
+	toggleButton.style.border = "1px solid rgba(255, 255, 255, 0.16)";
+	toggleButton.style.borderBottomWidth = "0";
+	toggleButton.style.borderRadius = "0.6rem 0.6rem 0 0";
+	toggleButton.style.background = "rgba(35, 26, 38, 0.8)";
+	toggleButton.style.backdropFilter = "blur(10px)";
+
+	const toggleIcon = document.createElement("span");
+	toggleIcon.textContent = "^";
+	toggleIcon.style.fontSize = "1.5rem";
 
 	overlay.appendChild(backButton);
 	overlay.appendChild(title);
 	overlay.appendChild(sideFooter);
+	overlay.appendChild(toggleButton);
 	document.body.appendChild(overlay);
 }
 
@@ -83,3 +106,5 @@ function goBack() {
 		window.location.href = "/"; // Go to home if no history
 	}
 }
+
+window.overlayPadding = "calc(4rem + env(safe-area-inset-bottom))";
