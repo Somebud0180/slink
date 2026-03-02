@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		"This website is a part of Slink! Learn more here https://github.com/Somebud0180/slink",
 	);
 
+	console.log(
+		"[Slink] Debug Stats: " + navHistory.length + " " + navHistory.pop(),
+	);
+
 	if (previousSite && previousSite !== currentSite) {
 		console.log("[Slink] Winding the slink");
 		createOverlay();
