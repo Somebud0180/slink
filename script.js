@@ -100,7 +100,7 @@ function createOverlay() {
 
 	const toggleIcon = document.createElement("img");
 	toggleIcon.className = "toggle-icon";
-	toggleIcon.src = "chevron-down.png";
+	toggleIcon.src = "https://somebud0180.github.io/slink/chevron-down.png";
 	toggleIcon.style.width = "1rem";
 	toggleIcon.style.height = "1rem";
 	toggleButton.appendChild(toggleIcon);
@@ -116,11 +116,11 @@ function toggleOverlay() {
 	const overlay = document.getElementById("slink-overlay");
 	if (overlay.style.transform === `translateY(${window.overlayPadding})`) {
 		const toggleIcon = this.querySelector(".toggle-icon");
-		toggleIcon.src = "chevron-up.gif";
+		toggleIcon.src = "https://somebud0180.github.io/slink/chevron-up.gif";
 		overlay.style.transform = "translateY(0)";
 	} else {
 		const toggleIcon = this.querySelector(".toggle-icon");
-		toggleIcon.src = "chevron-down.gif";
+		toggleIcon.src = "https://somebud0180.github.io/slink/chevron-down.gif";
 		overlay.style.transform = `translateY(${window.overlayPadding})`;
 	}
 }
