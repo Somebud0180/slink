@@ -14,7 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	);
 
 	console.log(
-		"[Slink] Debug Stats: " + navHistory.length + " " + navHistory.pop(),
+		"[Slink] Debug Stats: " +
+			navHistory.length +
+			" " +
+			navHistory[navHistory.length - 1],
 	);
 
 	if (previousSite && previousSite !== currentSite) {
@@ -26,15 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
 	}
 });
-
-// Call this before opening a new page to save the current site in history
-function saveCurrentSite() {
-	navHistory.push(currentSite);
-	if (navHistory.length > 5) {
-		navHistory.shift();
-	}
-	localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
-}
 
 function createOverlay() {
 	const overlay = document.createElement("div");
@@ -112,6 +106,20 @@ function createOverlay() {
 	document.body.appendChild(overlay);
 }
 
+// Call this before opening a new page to save the current site in history
+function saveCurrentSite() {
+	if (
+		navHistory.length > 0 &&
+		navHistory[navHistory.length - 1] !== currentSite
+	) {
+		navHistory.push(currentSite);
+		if (navHistory.length > 5) {
+			navHistory.shift();
+		}
+		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
+	}
+}
+
 function toggleOverlay() {
 	const overlay = document.getElementById("slink-overlay");
 	if (overlay.style.transform === `translateY(${window.overlayPadding})`) {
@@ -128,7 +136,7 @@ function toggleOverlay() {
 function goBack() {
 	const navHistory =
 		JSON.parse(localStorage.getItem("slink_nav_history")) || [];
-	if (navHistory.length > 1) {
+	if (navHistory.length > 0) {
 		navHistory.pop(); // Remove current site
 		const previousSite = navHistory.pop(); // Get previous site
 		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
