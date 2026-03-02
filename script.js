@@ -94,9 +94,12 @@ function createOverlay() {
 	toggleButton.style.cursor = "pointer";
 	toggleButton.addEventListener("click", toggleOverlay);
 
-	const toggleIcon = document.createElement("span");
-	toggleIcon.textContent = "^";
-	toggleIcon.style.fontSize = "1.5rem";
+	const toggleIcon = document.createElement("img");
+	toggleIcon.className = "toggle-icon";
+	toggleIcon.src = "chevron-down.png";
+	toggleIcon.style.width = "1rem";
+	toggleIcon.style.height = "1rem";
+	toggleButton.appendChild(toggleIcon);
 
 	overlay.appendChild(backButton);
 	overlay.appendChild(title);
@@ -108,8 +111,12 @@ function createOverlay() {
 function toggleOverlay() {
 	const overlay = document.getElementById("slink-overlay");
 	if (overlay.style.transform === `translateY(${window.overlayPadding})`) {
+		const toggleIcon = this.querySelector(".toggle-icon");
+		toggleIcon.src = "chevron-up.gif";
 		overlay.style.transform = "translateY(0)";
 	} else {
+		const toggleIcon = this.querySelector(".toggle-icon");
+		toggleIcon.src = "chevron-down.gif";
 		overlay.style.transform = `translateY(${window.overlayPadding})`;
 	}
 }
