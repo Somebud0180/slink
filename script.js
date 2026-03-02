@@ -47,7 +47,11 @@ function createOverlay() {
 
 	const backButton = document.createElement("button");
 	backButton.textContent = "← Back to " + previousSite;
-	backButton.style.padding = "0.5rem 1rem";
+	backButton.style.width = "fit-content";
+	backButton.style.maxWidth = "35vw";
+	backButton.style.textWrap = "auto";
+	backButton.style.textAlign = "left";
+	backButton.style.padding = "0.75rem";
 	backButton.style.fontSize = "clamp(0.65rem, 1.5vw, 0.9rem)";
 	backButton.style.background = "#f2d36b";
 	backButton.style.color = "#1a1a1a";
