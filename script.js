@@ -43,8 +43,7 @@ function createOverlay() {
 	overlay.style.justifyContent = "space-between";
 	overlay.style.alignItems = "center";
 	overlay.style.zIndex = "9999";
-	overlay.style.padding =
-		"0.5rem 1rem calc(0.5rem + env(safe-area-inset-bottom)) 1rem";
+	overlay.style.padding = "0.5rem 1rem";
 	overlay.style.backdropFilter = "blur(10px)";
 	overlay.style.transition = "transform 0.2s ease-out";
 
@@ -109,8 +108,9 @@ function createOverlay() {
 // Call this before opening a new page to save the current site in history
 function saveCurrentSite() {
 	if (
-		navHistory.length > 0 &&
-		navHistory[navHistory.length - 1] !== currentSite
+		(navHistory.length > 0 &&
+			navHistory[navHistory.length - 1] !== currentSite) ||
+		navHistory.length === 0
 	) {
 		navHistory.push(currentSite);
 		if (navHistory.length > 5) {
