@@ -84,7 +84,7 @@ function createOverlay() {
 	toggleButton.style.position = "absolute";
 	toggleButton.style.bottom = window.overlayPadding;
 	toggleButton.style.right = "1rem";
-	toggleButton.style.padding = "0.5rem";
+	toggleButton.style.padding = "0.25rem 0.5rem";
 	toggleButton.style.justifyContent = "center";
 	toggleButton.style.border = "1px solid rgba(255, 255, 255, 0.16)";
 	toggleButton.style.borderBottomWidth = "0";
