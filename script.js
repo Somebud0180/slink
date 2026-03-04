@@ -3,6 +3,8 @@
 window.overlayPadding = "calc(4rem + env(safe-area-inset-bottom))";
 
 let navHistory = JSON.parse(localStorage.getItem("slink_nav_history")) || [];
+let urlHistory = JSON.parse(localStorage.getItem("slink_url_history")) || [];
+let isLost = JSON.parse(localStorage.getItem("slink_is_lost")) || false;
 const pathParts = window.location.pathname.split("/").filter((p) => p !== "");
 const currentSite = pathParts[0] || "Home";
 const previousSite =
@@ -26,7 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	} else if (previousSite && previousSite === currentSite) {
 		console.log("[Slink] Unwinding the slink");
 		navHistory.pop(); // Remove current site from history
+		urlHistory.pop(); // Remove current URL from history
 		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
+		localStorage.setItem("slink_url_history", JSON.stringify(urlHistory));
 	}
 });
 
@@ -107,16 +111,28 @@ function createOverlay() {
 
 // Call this before opening a new page to save the current site in history
 function saveCurrentSite() {
-	if (
+	var isCurrentNavSuitable =
 		(navHistory.length > 0 &&
 			navHistory[navHistory.length - 1] !== currentSite) ||
-		navHistory.length === 0
-	) {
+		navHistory.length === 0;
+
+	var isCurrentURLSuitable =
+		(urlHistory.length > 0 &&
+			urlHistory[urlHistory.length - 1] !== window.location.href) ||
+		urlHistory.length === 0;
+
+	if (isCurrentNavSuitable && isCurrentURLSuitable) {
 		navHistory.push(currentSite);
 		if (navHistory.length > 5) {
 			navHistory.shift();
 		}
 		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
+
+		urlHistory.push(window.location.href);
+		if (urlHistory.length > 5) {
+			urlHistory.shift();
+		}
+		localStorage.setItem("slink_url_history", JSON.stringify(urlHistory));
 	}
 }
 
@@ -136,12 +152,29 @@ function toggleOverlay() {
 function goBack() {
 	const navHistory =
 		JSON.parse(localStorage.getItem("slink_nav_history")) || [];
-	if (navHistory.length > 0) {
-		const previousSite = navHistory.pop(); // Get previous site
+	const urlHistory =
+		JSON.parse(localStorage.getItem("slink_url_history")) || [];
+
+	if (urlHistory.length > 0 && navHistory.length > 0) {
+		const previousSiteName = navHistory.pop(); // Get previous site name
+		const previousSiteURL = urlHistory.pop(); // Get previous site URL
+		localStorage.setItem("slink_url_history", JSON.stringify(urlHistory));
 		localStorage.setItem("slink_nav_history", JSON.stringify(navHistory));
-		console.log("Going to " + previousSite);
-		window.location.href = `/${previousSite}`;
+		console.log("Going to " + previousSiteName);
+		window.location.href = previousSiteURL;
 	} else {
-		window.location.href = "/"; // Go to home if no history
+		var defaultURL = window.location.origin + "/SomeProot/"; // Default URL to go to if no history (Personal Website)
+		const historyIsLost =
+			JSON.parse(localStorage.getItem("slink_is_lost")) || false;
+
+		if (!historyIsLost) {
+			localStorage.setItem("slink_is_lost", JSON.stringify(true));
+			console.warn(
+				"[Slink] No history found. No history found, going to default URL: " +
+					defaultURL,
+			);
+		}
+
+		window.location.href = defaultURL; // Go to default URL if no history
 	}
 }
